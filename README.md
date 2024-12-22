@@ -41,10 +41,6 @@ The sheet metal surface includes irregularities that the robot must polish unifo
 - **Height:** 30 mm
 
 <div style="text-align: center;">
-  <img src="https://github.com/user-attachments/assets/b7e72a74-4fd3-4efd-95e0-dbfdb283f0c6" alt="Sheet Metal" />
-</div>
-
-<div style="text-align: center;">
   <img src="https://github.com/user-attachments/assets/1d123036-108e-4f75-97e0-ab7d9df1511d" alt="Blocking Sheet Metal" />
 </div>
 
