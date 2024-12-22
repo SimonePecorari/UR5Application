@@ -3,13 +3,10 @@
 This simulation demonstrates the use of **force control** to perform uniform polishing on sheet metal with an irregular surface. A safety mechanism was implemented to prevent accidental impacts with the work area.
 
 <div style="text-align: center;">
-  <img src="https://github.com/user-attachments/assets/48b99bb1-96d9-4660-a181-b834b9884eb3" alt="Robot Polishing Simulation" />
-</div>
-
-<div style="text-align: center;">
-<img src="https://github.com/user-attachments/assets/6789428d-1a66-42f3-85f5-1699f7798f7c" alt="Robot Polishing Simulation" />
+<img src="https://github.com/user-attachments/assets/4ed33fae-1113-4e52-867c-149f138beca0" alt="Robot Polishing Simulation" />
 </div>
 ---
+
 
 
 ## 🚨 Safety Plane
