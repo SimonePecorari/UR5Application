@@ -1,59 +1,107 @@
- Program
-   BeforeStart
-     MoveJ
-       home_B
-       Gripper Reset and Activate
-       lunghezza_B≔'Inserire la lunghezza [mm]'
-       larghezza_B≔'Inserire la larghezza [mm]'
-   Robot Program
-     MoveJ
-       presa_s_alto
-       MoveL
-         presa_spugna
-         Gripper Close (1)
-         MoveL
-           presa_s_alto1
-           Set Payload: PayloadB_spugna
-           Direction: Tool X-
-             Until (tool_contact_detection)
-         Direction: Base Y-
-           Until (distance)
-         Direction: Base X-
-           Until (distance)
-         Direction: Base Y+
-           Until (tool_contact_detection)
-         Direction: Base Z+
-           Until (distance)
-         Direction: Base
-           Until (distance)
-         spigolo_lamiera≔get_actual_tcp_pose()
-         loopB_init≔get_actual_tcp_pose()
-         Call Sub1_GRUPPOB
-         Direction: Base
-           Until (distance)
-         presa_s_alto1
-         Force
-           Direction: Tool Z-
-             Until (tool_contact_detection)
-         Gripper Open (1)
-         home_B
-         Halt
-   Sub1_GRUPPOB
-     Force
-       Wait: 0.3
-       Loop norm(loopB_init[0]-spigolo_lamiera[0])<(larghezza_B)/1000
-         loopB_init≔get_actual_tcp_pose()
-         loopB_fine≔pose_add(loopB_init, p[0,(lunghezza_B)/1000,0,0,0,0])
-         MoveP
-           loopB_fine
-         MoveP
-           Direction: Base X-
-             Until (distance)
-           loopB_int≔get_actual_tcp_pose()
-           loopB_return≔pose_sub(loopB_int, p[0,(lunghezza_B)/1000,0,0,0,0])
-           MoveP
-             loopB_return
-           diff_B≔norm(loopB_init[0])- norm(spigolo_lamiera[0])
-           If diff_B<((larghezza_B)/1000)
-             Direction: Base X-
-               Until (distance)
+# Main program of the UR5 robot
+
+# **BeforeStart**
+# This section performs initial operations before the main robot program starts.
+BeforeStart:
+  MoveJ:
+    home_B  # "Home" position of the robot to initialize.
+    Gripper Reset and Activate  # Resets and activates the gripper.
+
+    # User input request for the length and width of the material to be handled.
+    lunghezza_B ≔ 'Enter the length [mm]'  # Length of the material (e.g., sponge).
+    larghezza_B ≔ 'Enter the width [mm]'  # Width of the material.
+
+# **Robot Program**
+# Main program that executes the robot's movements and operations.
+Robot Program:
+  MoveJ:
+    presa_s_alto  # Initial position above the gripping point.
+
+    MoveL:
+      presa_spugna  # Linear movement towards the gripping point of the sponge.
+      Gripper Close (1)  # Closes the gripper to grasp the sponge.
+
+      MoveL:
+        presa_s_alto1  # Initial lifting position after grasping.
+        Set Payload: PayloadB_spugna  # Sets the payload for the weight of the grasped piece.
+
+        # Movement in the Tool X- direction until contact is detected.
+        Direction: Tool X-
+          Until (tool_contact_detection)
+
+      # Series of movements for positioning and alignment.
+      Direction: Base Y-
+        Until (distance)  # Movement in the Base Y- direction until a defined distance is reached.
+
+      Direction: Base X-
+        Until (distance)  # Movement in the Base X- direction until a defined distance.
+
+      Direction: Base Y+
+        Until (tool_contact_detection)  # Movement in the Base Y+ direction until contact is detected.
+
+      Direction: Base Z+
+        Until (distance)  # Movement in the Base Z+ direction until a defined distance.
+
+      Direction: Base
+        Until (distance)  # Movement in the Base direction until a defined distance.
+
+      # Saves the current position (TCP - Tool Center Point) as a reference for the edge of the sheet.
+      spigolo_lamiera ≔ get_actual_tcp_pose()
+
+      # Saves the initial position of the loop.
+      loopB_init ≔ get_actual_tcp_pose()
+
+      # Calls the subroutine "Sub1_GRUPPOB" to execute a processing loop.
+      Call Sub1_GRUPPOB
+
+      # Returns to the initial position.
+      Direction: Base
+        Until (distance)
+
+      presa_s_alto1  # Returns to the initial position above the gripping point.
+
+      Force:
+        Direction: Tool Z-
+          Until (tool_contact_detection)  # Applies force in the Tool Z- direction until contact is detected.
+
+      Gripper Open (1)  # Opens the gripper to release the piece.
+      home_B  # Returns to the "home" position.
+
+      Halt  # Ends the main program.
+
+# **Subroutine: Sub1_GRUPPOB**
+# This subroutine manages a processing loop along the material.
+Sub1_GRUPPOB:
+  Force:
+    Wait: 0.3  # Pause for 0.3 seconds to stabilize the robot.
+
+    # Loop that performs movements while the difference between the current and initial positions meets the condition.
+    Loop norm(loopB_init[0]-spigolo_lamiera[0]) < (larghezza_B) / 1000:
+
+      # Updates the initial position of the loop.
+      loopB_init ≔ get_actual_tcp_pose()
+
+      # Calculates the final position along the length of the material.
+      loopB_fine ≔ pose_add(loopB_init, p[0, (lunghezza_B) / 1000, 0, 0, 0, 0])
+
+      MoveP:
+        loopB_fine  # Point-to-point movement to the calculated position.
+
+      MoveP:
+        Direction: Base X-
+          Until (distance)  # Point-to-point movement in the Base X- direction until a defined distance.
+
+        # Calculates the return position along the length of the material.
+        loopB_int ≔ get_actual_tcp_pose()
+        loopB_return ≔ pose_sub(loopB_int, p[0, (lunghezza_B) / 1000, 0, 0, 0, 0])
+
+        MoveP:
+          loopB_return  # Point-to-point movement to the calculated return position.
+
+        # Calculates the difference between the initial position and the edge of the sheet.
+        diff_B ≔ norm(loopB_init[0]) - norm(spigolo_lamiera[0])
+
+        # Checks if the difference meets the condition for further movement.
+        If diff_B < ((larghezza_B) / 1000):
+          Direction: Base X-
+            Until (distance)  # Movement in the Base X- direction until a defined distance.
