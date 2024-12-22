@@ -12,7 +12,7 @@ This simulation demonstrates the use of **force control** to perform uniform pol
 ## 🚨 Safety Plane
 A **safety plane** was defined at a height of `( ) [mm]` along the Z-negative axis with respect to the work plane. This ensures that the robot avoids any unintended collisions with the work area.
 
-<div style="text-align: center;">
+<div align= "center">
   <img src="https://github.com/user-attachments/assets/158a2533-37f8-43c4-a262-b302c235caac" alt="Safety Plane" />
 </div>
 
