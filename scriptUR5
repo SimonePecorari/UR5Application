@@ -1,0 +1,59 @@
+ Program
+   BeforeStart
+     MoveJ
+       home_B
+       Gripper Reset and Activate
+       lunghezza_B≔'Inserire la lunghezza [mm]'
+       larghezza_B≔'Inserire la larghezza [mm]'
+   Robot Program
+     MoveJ
+       presa_s_alto
+       MoveL
+         presa_spugna
+         Gripper Close (1)
+         MoveL
+           presa_s_alto1
+           Set Payload: PayloadB_spugna
+           Direction: Tool X-
+             Until (tool_contact_detection)
+         Direction: Base Y-
+           Until (distance)
+         Direction: Base X-
+           Until (distance)
+         Direction: Base Y+
+           Until (tool_contact_detection)
+         Direction: Base Z+
+           Until (distance)
+         Direction: Base
+           Until (distance)
+         spigolo_lamiera≔get_actual_tcp_pose()
+         loopB_init≔get_actual_tcp_pose()
+         Call Sub1_GRUPPOB
+         Direction: Base
+           Until (distance)
+         presa_s_alto1
+         Force
+           Direction: Tool Z-
+             Until (tool_contact_detection)
+         Gripper Open (1)
+         home_B
+         Halt
+   Sub1_GRUPPOB
+     Force
+       Wait: 0.3
+       Loop norm(loopB_init[0]-spigolo_lamiera[0])<(larghezza_B)/1000
+         loopB_init≔get_actual_tcp_pose()
+         loopB_fine≔pose_add(loopB_init, p[0,(lunghezza_B)/1000,0,0,0,0])
+         MoveP
+           loopB_fine
+         MoveP
+           Direction: Base X-
+             Until (distance)
+           loopB_int≔get_actual_tcp_pose()
+           loopB_return≔pose_sub(loopB_int, p[0,(lunghezza_B)/1000,0,0,0,0])
+           MoveP
+             loopB_return
+           diff_B≔norm(loopB_init[0])- norm(spigolo_lamiera[0])
+           If diff_B<((larghezza_B)/1000)
+             Direction: Base X-
+               Until (distance)
