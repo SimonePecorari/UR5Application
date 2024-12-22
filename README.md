@@ -65,7 +65,7 @@ Based on these results, a **force value of 8N** was selected as the optimal bala
 
 > **Note:** Proper management of robot singularities is critical to ensure smooth operation and avoid errors.
 
-<div style="text-align: center;">
+<div align= "center">
   <img src="https://github.com/user-attachments/assets/8a647636-29a0-4a4a-ba79-7cb62987b822" alt="Observations 2" />
 </div>
 
