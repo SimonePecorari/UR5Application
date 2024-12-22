@@ -45,7 +45,7 @@ The sheet metal surface includes irregularities that the robot must polish unifo
   <img src="https://github.com/user-attachments/assets/e7353e8f-f985-4107-bba4-25c6f72b2ad7" alt="Sheet Metal" />
 </div>
 
-Blocking Sheet Metal
+## BLOCKING SHEET METAL
 <div style="text-align: center;">
   <img src="https://github.com/user-attachments/assets/1d123036-108e-4f75-97e0-ab7d9df1511d" alt="Blocking Sheet Metal" />
 </div>
