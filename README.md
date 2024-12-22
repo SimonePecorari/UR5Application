@@ -6,7 +6,11 @@ This simulation demonstrates the use of **force control** to perform uniform pol
   <img src="https://github.com/user-attachments/assets/48b99bb1-96d9-4660-a181-b834b9884eb3" alt="Robot Polishing Simulation" />
 </div>
 
+<div style="text-align: center;">
+<img src="https://github.com/user-attachments/assets/6789428d-1a66-42f3-85f5-1699f7798f7c" alt="Robot Polishing Simulation" />
+</div>
 ---
+
 
 ## 🚨 Safety Plane
 A **safety plane** was defined at a height of `( ) [mm]` along the Z-negative axis with respect to the work plane. This ensures that the robot avoids any unintended collisions with the work area.
